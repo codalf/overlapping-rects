@@ -1,14 +1,18 @@
 import './style.css'
-import { sampleOutline, sampleRectangles, sampleRectangles2 } from './getSampleData.ts'
+import { sampleOutline, sampleRectangles } from './getSampleData.ts'
 import { generateSVG } from './generateSvg.ts'
-import { chatGpt } from './llms/chatGpt/chatGpt.ts';
-import { chatGpt2 } from './llms/chatGpt/chatGpt2.ts';
-import { gemini, gemini2 } from './llms/gemini/gemini.ts';
+import { gpt_5_1 } from './llms/gpt/gpt_5_1.ts';
+import { gpt_5_1_2nd } from './llms/gpt/gpt_5_1_2nd';
+import { gemini_3_1st } from './llms/gemini/gemini_3_1st.ts';
 import { claude } from './llms/claude/claude.ts';
 import { mistral, mistral2 } from './llms/mistral/mistral.ts';
 import { perplexity, perplexity2 } from './llms/perplexity/perplexity.ts';
 import { claude2 } from './llms/claude/claude2.ts';
-import { solution } from './llms/solution.ts';
+import { sonnet_4_5_1st } from './llms/claude/sonnet_4_5_1st.ts';
+import { sonnet_4_5_2nd } from './llms/claude/sonnet_4_5_2nd.ts';
+import { deepseek_3_2_a_1st, deepseek_3_2_b_1st } from './llms/deepseek/deepseek_3_2_1st.ts';
+import { deepseek_3_2_b_2nd } from './llms/deepseek/deepseek_3_2_2nd.ts';
+// import { solution } from './llms/solution.ts';
 
 interface Rectangle {
   x: number;
@@ -29,28 +33,29 @@ function render(rectangles: Rectangle[], outline: Point[], first = true): void {
 
 function onSample() {
   render(sampleRectangles, sampleOutline);
-  const solutionOutline = solution(sampleRectangles2);
-  render(sampleRectangles2, solutionOutline, false);
+  // const solutionOutline = solution(sampleRectangles2);
+  render(sampleRectangles, [], false);
 }
 
-function onChatGpt() {
-  const chatGptOutline = chatGpt(sampleRectangles);
-  render(sampleRectangles, chatGptOutline);
-  const chatGptOutline2 = chatGpt2(sampleRectangles);
+function onGpt() {
+  const gptOutline = gpt_5_1(sampleRectangles);
+  render(sampleRectangles, gptOutline);
+  const chatGptOutline2 = gpt_5_1_2nd(sampleRectangles);
   render(sampleRectangles, chatGptOutline2, false);
 }
 
 function onGemini() {
-  const geminiOutline = gemini(sampleRectangles).map(([x, y]) => ({x, y}));
-  render(sampleRectangles, geminiOutline);
-  const geminiOutline2 = gemini2(sampleRectangles).map(([x, y]) => ({x, y}));
-  render(sampleRectangles, geminiOutline2, false);
+  const geminiOutline = gemini_3_1st(sampleRectangles);
+  console.log(geminiOutline);
+  render(sampleRectangles, geminiOutline[0]);
+  // const geminiOutline2 = gemini2(sampleRectangles).map(([x, y]) => ({x, y}));
+  render(sampleRectangles, [], false);
 }
 
 function onClaude() {
-  const claudeOutline = claude(sampleRectangles);
+  const claudeOutline = sonnet_4_5_1st(sampleRectangles);
   render(sampleRectangles, claudeOutline);
-  const claudeOutline2 = claude2(sampleRectangles);
+  const claudeOutline2 = sonnet_4_5_2nd(sampleRectangles);
   render(sampleRectangles, claudeOutline2, false);
 }
 
@@ -68,11 +73,18 @@ function onPerplexity() {
   render(sampleRectangles, perplexityOutline2, false);
 }
 
+function onDeepseek() {
+  const deepseekOutline = deepseek_3_2_b_1st(sampleRectangles);
+  render(sampleRectangles, deepseekOutline);
+  const deepseekOutline2 = deepseek_3_2_b_2nd(sampleRectangles);
+  render(sampleRectangles, deepseekOutline2, false);
+}
+
 (document.getElementById('sample') as HTMLButtonElement).onclick = onSample;
-(document.getElementById('chatgpt') as HTMLButtonElement).onclick = onChatGpt;
+(document.getElementById('chatgpt') as HTMLButtonElement).onclick = onGpt;
 (document.getElementById('gemini') as HTMLButtonElement).onclick = onGemini;
 (document.getElementById('claude') as HTMLButtonElement).onclick = onClaude;
 (document.getElementById('mistral') as HTMLButtonElement).onclick = onMistral;
-(document.getElementById('perplexity') as HTMLButtonElement).onclick = onPerplexity;
+(document.getElementById('deepseek') as HTMLButtonElement).onclick = onDeepseek;
 
 render(sampleRectangles, sampleOutline);
