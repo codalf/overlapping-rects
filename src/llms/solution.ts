@@ -88,7 +88,7 @@ export function solution(rectangles: Rectangle[]): Point[] {
     const result = move[direction](nextEdge);
     direction = result.direction;
     nextEdge = result.nextEdge;
-  } while (nextEdge && nextEdge !== startEdge && outline.length < 11);
+  } while (nextEdge && nextEdge !== startEdge);
 
   return outline;
 }
