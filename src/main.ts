@@ -1,12 +1,13 @@
 import './style.css'
 import { sampleOutline, sampleRectangles, sampleRectangles2 } from './getSampleData.ts'
 import { generateSVG } from './generateSvg.ts'
-import { chatGpt } from './llms/chatGpt.ts';
-import { gemini, gemini2 } from './llms/gemini.ts';
-import { claude } from './llms/claude.ts';
-import { mistral, mistral2 } from './llms/mistral.ts';
-import { perplexity, perplexity2 } from './llms/perplexity.ts';
-import { claude2 } from './llms/claude2.ts';
+import { chatGpt } from './llms/chatGpt/chatGpt.ts';
+import { chatGpt2 } from './llms/chatGpt/chatGpt2.ts';
+import { gemini, gemini2 } from './llms/gemini/gemini.ts';
+import { claude } from './llms/claude/claude.ts';
+import { mistral, mistral2 } from './llms/mistral/mistral.ts';
+import { perplexity, perplexity2 } from './llms/perplexity/perplexity.ts';
+import { claude2 } from './llms/claude/claude2.ts';
 import { solution } from './llms/solution.ts';
 
 interface Rectangle {
@@ -35,7 +36,8 @@ function onSample() {
 function onChatGpt() {
   const chatGptOutline = chatGpt(sampleRectangles);
   render(sampleRectangles, chatGptOutline);
-  render(sampleRectangles, [], false);
+  const chatGptOutline2 = chatGpt2(sampleRectangles);
+  render(sampleRectangles, chatGptOutline2, false);
 }
 
 function onGemini() {
