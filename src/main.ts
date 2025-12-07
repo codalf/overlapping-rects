@@ -12,6 +12,7 @@ import { sonnet_4_5_1st } from './llms/claude/sonnet_4_5_1st.ts';
 import { sonnet_4_5_2nd } from './llms/claude/sonnet_4_5_2nd.ts';
 import { deepseek_3_2_a_1st, deepseek_3_2_b_1st } from './llms/deepseek/deepseek_3_2_1st.ts';
 import { deepseek_3_2_b_2nd } from './llms/deepseek/deepseek_3_2_2nd.ts';
+import { kimi_k2_1st } from './llms/kimi/kimi_k2_1st.ts';
 // import { solution } from './llms/solution.ts';
 
 interface Rectangle {
@@ -40,8 +41,8 @@ function onSample() {
 function onGpt() {
   const gptOutline = gpt_5_1(sampleRectangles);
   render(sampleRectangles, gptOutline);
-  const chatGptOutline2 = gpt_5_1_2nd(sampleRectangles);
-  render(sampleRectangles, chatGptOutline2, false);
+  const gptOutline2 = gpt_5_1_2nd(sampleRectangles);
+  render(sampleRectangles, gptOutline2, false);
 }
 
 function onGemini() {
@@ -80,11 +81,19 @@ function onDeepseek() {
   render(sampleRectangles, deepseekOutline2, false);
 }
 
+function onKimi() {
+  const kimiOutline = kimi_k2_1st(sampleRectangles);
+  render(sampleRectangles, kimiOutline);
+  // const deepseekOutline2 = deepseek_3_2_b_2nd(sampleRectangles);
+  render(sampleRectangles, [], false);
+}
+
 (document.getElementById('sample') as HTMLButtonElement).onclick = onSample;
-(document.getElementById('chatgpt') as HTMLButtonElement).onclick = onGpt;
+(document.getElementById('gpt') as HTMLButtonElement).onclick = onGpt;
 (document.getElementById('gemini') as HTMLButtonElement).onclick = onGemini;
 (document.getElementById('claude') as HTMLButtonElement).onclick = onClaude;
 (document.getElementById('mistral') as HTMLButtonElement).onclick = onMistral;
+(document.getElementById('kimi') as HTMLButtonElement).onclick = onKimi;
 (document.getElementById('deepseek') as HTMLButtonElement).onclick = onDeepseek;
 
 render(sampleRectangles, sampleOutline);
